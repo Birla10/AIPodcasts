@@ -12,14 +12,11 @@ os.environ["FFMPEG_BINARY"] = ffmpeg_path  # Force FFmpeg for subprocess calls
 AudioSegment.ffmpeg = which("ffmpeg")
 AudioSegment.ffprobe = which("ffprobe")
 
-# Debugging: Print the FFmpeg path to confirm
-print("✅ FFmpeg Path Set:", AudioSegment.converter)
-
 ELEVEN_LABS_API_KEY = os.getenv("ELEVEN_LABS_API_KEY")  # Add your Eleven Labs API Key
 
 # Define different voices for AI-1 and AI-2
-VOICE_AI_1 = "21m00Tcm4TlvDq8ikWAM"  # Example Voice ID for AI-1
-VOICE_AI_2 = "EXAVITQu4vr4xnSDxMaL"  # Example Voice ID for AI-2
+VOICE_AI_1 = "21m00Tcm4TlvDq8ikWAM"  
+VOICE_AI_2 = "bIHbv24MWmeRgasZH58o"  
 
 def text_to_speech(text: str, voice_id: str, filename: str):
     """
@@ -33,7 +30,7 @@ def text_to_speech(text: str, voice_id: str, filename: str):
     }
 
     data = {
-        "text": text,
+        "text": text.split(':', 1)[1].strip(),
         "model_id": "eleven_monolingual_v1",
         "voice_settings": {
             "stability": 0.5,
@@ -59,10 +56,19 @@ def synthesize_conversation(conversation: list, output_filename: str):
     """
     audio_files = []
 
+    # folder for temporary files
+    temp_folder = "temp_audio_files"
+
+    # Create the folder if it doesn't exist
+    if not os.path.exists(temp_folder):
+        os.makedirs(temp_folder)
+
     for index, line in enumerate(conversation):
         # Alternate between AI-1 and AI-2 voices
         voice_id = VOICE_AI_1 if index % 2 == 0 else VOICE_AI_2
-        filename = f"line_{index}.mp3"
+
+        # Generate the temporary file path
+        filename = os.path.join(temp_folder, f"line_{index}.mp3")
 
         # Convert text to speech
         audio_file = text_to_speech(line, voice_id, filename)
@@ -72,6 +78,9 @@ def synthesize_conversation(conversation: list, output_filename: str):
     # Merge all audio files into a single MP3 file
     if audio_files:
         merge_audio(audio_files, output_filename)
+
+    # Delete the individual line audio files
+    delete_files(audio_files)
 
 
 def merge_audio(files: list, output_filename: str):
@@ -88,5 +97,17 @@ def merge_audio(files: list, output_filename: str):
     print(f"Final conversation saved as {output_filename}")
 
 
+def delete_files(files: list):
+    """
+    Delete multiple audio files.
+    """
+    for file in files:
+        if os.path.exists(file):
+            os.remove(file)
+            print(f"Deleted {file}")
+        else:
+            print(f"File {file} not found")
+
+
 def play_audio(file_path: str):
-    os.system(f"start {file_path}")  # Windows: 'start', Mac/Linux: 'afplay' or 'mpg123'
+    os.system(f"start {file_path}") 
