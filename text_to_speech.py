@@ -1,54 +1,34 @@
-import requests
 import os
 from pydub import AudioSegment
-from pydub.utils import which
 
-# Explicitly set FFmpeg path for Pydub
-ffmpeg_path = "E:\\Softwares\\ffmpeg-2025-01-30-git-1911a6ec26-essentials_build\\bin\\ffmpeg.exe"
-AudioSegment.converter = ffmpeg_path
-os.environ["FFMPEG_BINARY"] = ffmpeg_path  # Force FFmpeg for subprocess calls
+# from pydub.utils import which
+# # Explicitly set FFmpeg path for Pydub
+# # ffmpeg_path = "E:\\Softwares\\ffmpeg-2025-01-30-git-1911a6ec26-essentials_build\\bin\\ffmpeg.exe"
+# # AudioSegment.converter = ffmpeg_path
+# # os.environ["FFMPEG_BINARY"] = ffmpeg_path  # Force FFmpeg for subprocess calls
 
-# Ensure Pydub can find FFmpeg
-AudioSegment.ffmpeg = which("ffmpeg")
-AudioSegment.ffprobe = which("ffprobe")
+# # # Ensure Pydub can find FFmpeg
+# # AudioSegment.ffmpeg = which("ffmpeg")
+# # AudioSegment.ffprobe = which("ffprobe")
 
-ELEVEN_LABS_API_KEY = os.getenv("ELEVEN_LABS_API_KEY")  # Add your Eleven Labs API Key
+from openai import OpenAI
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Define different voices for AI-1 and AI-2
-VOICE_AI_1 = "21m00Tcm4TlvDq8ikWAM"  
-VOICE_AI_2 = "bIHbv24MWmeRgasZH58o"  
+VOICE_AI_1 = "alloy"  
+VOICE_AI_2 = "echo"  
 
 def text_to_speech(text: str, voice_id: str, filename: str):
-    """
-    Convert text to speech using Eleven Labs API and save it as an audio file.
-    """
-    url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}"
-
-    headers = {
-        "xi-api-key": ELEVEN_LABS_API_KEY,
-        "Content-Type": "application/json",
-    }
-
-    data = {
-        "text": text.split(':', 1)[1].strip(),
-        "model_id": "eleven_monolingual_v1",
-        "voice_settings": {
-            "stability": 0.5,
-            "similarity_boost": 0.7
-        }
-    }
-
-    response = requests.post(url, json=data, headers=headers)
-
-    if response.status_code == 200:
-        with open(filename, "wb") as f:
-            f.write(response.content)
-        print(f"Audio saved as {filename}")
-        return filename
-    else:
-        print(f"Error: {response.json()}")
-        return None
-
+    
+    text.split(':', 1)[1].strip()
+    response = client.audio.speech.create(
+        model="tts-1",
+        voice=voice_id,
+        input=text.split(':', 1)[1].strip(),
+    )
+    
+    response.stream_to_file(filename)
+    return filename 
 
 def synthesize_conversation(conversation: list, output_filename: str):
     """
