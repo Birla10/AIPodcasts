@@ -24,28 +24,69 @@ git clone https://github.com/Birla10/AIPodcasts.git
 cd AIPodcasts
 ```
 
-**Install Dependencies**
+# 🎧 AI Podcasts – AI-Generated Podcast Conversations  
+
+🚀 **AI Podcasts** is a Python-based project that generates realistic **AI-driven podcast conversations** using OpenAI’s API and text-to-speech (TTS) technology.  
+
+---
+
+## 🚀 Installation & Setup  
+
+### 🔹 1⃣ Clone the Repository  
+```bash
+git clone https://github.com/Birla10/AIPodcasts.git
+cd AIPodcasts
+```
+
+### 🔹 2⃣ Install Dependencies  
+```bash
 pip install -r requirements.txt
+```
 
-**Setup you OpenAI API Key**
-To get you OpenAI API Key, [click here](https://platform.openai.com/docs/overview)
+### 🔹 3⃣ Setup Your OpenAI API Key  
+To get your OpenAI API Key, [click here](https://platform.openai.com/).
 
-**Setup envinonment variables**
-Once you got the keys set the env variable "OPENAI_API_KEY" with the key
+### 🔹 4⃣ Setup Environment Variables  
+Once you have the API key, set the environment variable `OPENAI_API_KEY` with the key:  
 
-**🎤 Running the AI Podcast Generator**
+#### **macOS/Linux**  
+```bash
+export OPENAI_API_KEY="your_openai_api_key"
+```
+#### **Windows**  
+```bash
+set OPENAI_API_KEY="your_openai_api_key"
+```
+
+---
+
+## 🎤 Running the AI Podcast Generator  
+To start the application, run:  
+```bash
 uvicorn app:app --reload
+```
 
-**Endpoint to generate the Podcast**
-/generate-podcast
+---
 
-**Example request:**
-POST //generate-podcast
+## 📁 API Endpoint to Generate the Podcast  
 
+### **🎯 Endpoint:**  
+```http
+POST /generate-podcast
+```
+
+### **📌 Example Request:**  
+```json
 {
-    "topic": "Current IT job market in USA and how it is effecting international students pursuing Masters in USA"
+  "topic": "Current IT job market in USA and how it is effecting international students pursuing Masters in USA"
 }
+```
 
-Sample Podcast generated using the application is **output.mp3**
+### **🎧 Sample Podcast Output:**  
+A sample podcast generated using this application is saved as **output.mp3**.  
 
-⭐ If you find this project interesting, give it a star on GitHub! 🌟
+---
+
+## ⭐ Support the Project  
+If you find this project interesting, **give it a star** on GitHub! 🌟  
+
