@@ -24,12 +24,6 @@ git clone https://github.com/Birla10/AIPodcasts.git
 cd AIPodcasts
 ```
 
-# 🎧 AI Podcasts – AI-Generated Podcast Conversations  
-
-🚀 **AI Podcasts** is a Python-based project that generates realistic **AI-driven podcast conversations** using OpenAI’s API and text-to-speech (TTS) technology.  
-
----
-
 ## 🚀 Installation & Setup  
 
 ### 🔹 1⃣ Clone the Repository  
