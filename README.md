@@ -52,15 +52,11 @@ export OPENAI_API_KEY="your_openai_api_key"
 set OPENAI_API_KEY="your_openai_api_key"
 ```
 
----
-
 ## 🎤 Running the AI Podcast Generator  
 To start the application, run:  
 ```bash
 uvicorn app:app --reload
 ```
-
----
 
 ## 📁 API Endpoint to Generate the Podcast  
 
@@ -79,7 +75,6 @@ POST /generate-podcast
 ### **🎧 Sample Podcast Output:**  
 A sample podcast generated using this application is saved as **output.mp3**.  
 
----
 
 ## ⭐ Support the Project  
 If you find this project interesting, **give it a star** on GitHub! 🌟  
