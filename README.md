@@ -73,7 +73,7 @@ POST /generate-podcast
 ```
 
 ### **🎧 Sample Podcast Output:**  
-A sample podcast generated using this application is saved as **output.mp3**.  
+A sample podcast generated using this application is saved as [**output.mp3**](https://github.com/Birla10/AIPodcasts/blob/main/output.mp3).  
 
 
 ## ⭐ Support the Project  
