@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from ai_conversation import generate_conversation
-from text_to_speech import synthesize_conversation, play_audio
+from text_to_speech import synthesize_conversation
 # from pydub import AudioSegment
 # from pydub.utils import which
 
@@ -26,5 +26,5 @@ def generate_podcast(request: ConversationRequest):
     conversation = generate_conversation(request.topic)
     output_file = "output.mp3"
     synthesize_conversation(conversation, output_file)
-    play_audio(output_file)
+    #play_audio(output_file)
     return {"message": "Podcast generated and played successfully", "output_file": output_file}

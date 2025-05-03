@@ -89,5 +89,5 @@ def delete_files(files: list):
             print(f"File {file} not found")
 
 
-def play_audio(file_path: str):
-    os.system(f"start {file_path}") 
+# def play_audio(file_path: str):
+#     os.system(f"start {file_path}") 
