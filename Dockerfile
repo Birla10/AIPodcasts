@@ -8,6 +8,7 @@ WORKDIR /app
 COPY requirements.txt /app/
 
 # Install only required Python dependencies
+RUN apt-get update && apt-get install -y ffmpeg
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application code
