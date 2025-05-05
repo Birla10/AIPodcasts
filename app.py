@@ -1,30 +1,38 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from ai_conversation import generate_conversation
-from text_to_speech import synthesize_conversation
-# from pydub import AudioSegment
-# from pydub.utils import which
-
-
-# # Explicitly set FFmpeg path for Pydub
-# ffmpeg_path = "E:\\Softwares\\ffmpeg-2025-01-30-git-1911a6ec26-essentials_build\\bin\\ffmpeg.exe"
-# AudioSegment.converter = ffmpeg_path
-# os.environ["FFMPEG_BINARY"] = ffmpeg_path  # Force FFmpeg for subprocess calls
+from ai_conversation import AIConversation
+import logging
 
 # Initialize FastAPI app
 app = FastAPI()
 
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logging.getLogger("httpx").setLevel(logging.WARNING)
+logger = logging.getLogger(__name__)
+
 class ConversationRequest(BaseModel):
     topic: str
 
+# Define a root endpoint to check if the API is running
 @app.get("/")
 def home():
+    # Log a message indicating the API is operational
+    logger.info("AI Podcast API is running!")
+    # Return a simple JSON response
     return {"message": "AI Podcast API is running!"}
 
 @app.post("/generate-podcast/")
 def generate_podcast(request: ConversationRequest):
-    conversation = generate_conversation(request.topic)
-    output_file = "output.mp3"
-    synthesize_conversation(conversation, output_file)
-    #play_audio(output_file)
-    return {"message": "Podcast generated and played successfully", "output_file": output_file}
+    # Create an instance of the AIConversation class to handle conversation generation
+    logger.info("Initializing AIConversation instance.")
+    ai_conversation = AIConversation()
+    
+    # Log the topic for which the conversation is being generated
+    logger.info(f"Generating conversation for topic: {request.topic}")
+    
+    # Generate a conversation based on the provided topic
+    logger.info("Starting conversation generation.")
+    ai_conversation.generate_conversation(request.topic)
+    
+    return {"message": "Podcast generated successfully"}
