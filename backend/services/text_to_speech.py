@@ -55,7 +55,7 @@ def synthesize_conversation(conversation: list, output_filename: str):
     audio_files = []
 
     # Folder for temporary audio files
-    temp_folder = "temp_audio_files"
+    temp_folder = "./temp_audio_files/"
 
     # Create the folder if it doesn't exist
     if not os.path.exists(temp_folder):

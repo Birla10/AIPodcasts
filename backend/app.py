@@ -1,7 +1,8 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, BackgroundTasks
 from pydantic import BaseModel
-from ai_conversation import AIConversation
 import logging
+
+from backend.services.ai_conversation import AIConversation
 
 # Initialize FastAPI app
 app = FastAPI()
@@ -23,7 +24,7 @@ def home():
     return {"message": "AI Podcast API is running!"}
 
 @app.post("/generate-podcast/")
-def generate_podcast(request: ConversationRequest):
+def generate_podcast(request: ConversationRequest, background_tasks: BackgroundTasks):
     # Create an instance of the AIConversation class to handle conversation generation
     logger.info("Initializing AIConversation instance.")
     ai_conversation = AIConversation()
@@ -32,7 +33,6 @@ def generate_podcast(request: ConversationRequest):
     logger.info(f"Generating conversation for topic: {request.topic}")
     
     # Generate a conversation based on the provided topic
-    logger.info("Starting conversation generation.")
-    ai_conversation.generate_conversation(request.topic)
+    background_tasks.add_task(ai_conversation.generate_conversation, request.topic)
     
-    return {"message": "Podcast generated successfully"}
+    return {"message": "Podcast generated started"}
